@@ -1,0 +1,106 @@
+Lembre-se de que para usar esses códigos VBA, você deve habilitar a guia "Desenvolvedor" no Excel.
+
+
+# Adicionar uma nova planilha e renomeá-la:
+
+Sub AdicionarPlanilhaERenomear()
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Sheets.Add
+    ws.Name = "Planilha2"
+End Sub
+
+
+# Copiar e colar dados de uma planilha para outra:
+
+Sub CopiarColarDados()
+    Dim origem As Worksheet
+    Dim destino As Worksheet
+    
+    Set origem = ThisWorkbook.Worksheets("Planilha1")
+    Set destino = ThisWorkbook.Worksheets("Planilha2")
+    
+    origem.Range("A1:C11").Copy
+    destino.Range("A1").PasteSpecial xlPasteValues
+    Application.CutCopyMode = False
+End Sub
+
+
+# Preencher células com uma série de números:
+
+Sub PreencherSerieNumerica()
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Worksheets("Planilha1")
+    
+    With ws.Range("D2:D11")
+        .Cells(1, 1).Value = 1
+        .DataSeries Rowcol:=xlColumns, Type:=xlLinear, Step:=1, Stop:=10
+    End With
+End Sub
+
+
+# Aplicar formatação condicional às células:
+
+Sub FormatacaoCondicional()
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Worksheets("Planilha1")
+    Dim rng As Range
+    Set rng = ws.Range("B2:B11")
+
+    With rng.FormatConditions.Add(xlCellValue, xlGreater, "=500")
+        .Interior.Color = RGB(255, 129, 30)
+    End With
+End Sub
+
+
+# Filtrar dados em uma tabela:
+
+Sub FiltrarDados()
+    Dim ws As Worksheet
+    Set ws = ThisWorkbook.Worksheets("Planilha1")
+    Dim rng As Range
+    Set rng = ws.Range("C1:C11")
+    
+    rng.AutoFilter Field:=1, Criteria1:="<=35"
+End Sub
+
+
+# Calcula Média e Desvio Padrão em uma tabela:
+
+Sub CalcularEstatisticas()
+    Dim ws As Worksheet
+    Dim Media As Double, DesvioPadrao As Double
+    Dim rng As Range
+    
+    Set ws = ThisWorkbook.Worksheets("Planilha2")
+    Set rng = ws.Range("B2:B11")
+    
+    Media = Application.WorksheetFunction.Average(rng)
+    DesvioPadrao = Application.WorksheetFunction.StDev(rng)
+    
+    MsgBox "Média: " & Media & vbCrLf & "Desvio Padrão: " & DesvioPadrao
+End Sub
+
+
+# Cria um modelo de Regressão Linear
+
+Sub RegressaoLinear()
+    Dim ws As Worksheet
+    Dim rngX As Range, rngY As Range
+    Dim Coeficientes As Variant
+    Dim Intercepto As Double, Inclinacao As Double
+    
+    Set ws = ThisWorkbook.Worksheets("Planilha2")
+    Set rngX = ws.Range("B2:B11")
+    Set rngY = ws.Range("C2:C11")
+    
+    Coeficientes = Application.WorksheetFunction.LinEst(rngY, rngX)
+    
+    Inclinacao = Coeficientes(1)
+    Intercepto = Coeficientes(2)
+    
+    MsgBox "Equação da regressão linear: y = " & Intercepto & " + " & Inclinacao & " * x"
+End Sub
+
+
+
+	
